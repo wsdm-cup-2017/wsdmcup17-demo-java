@@ -68,7 +68,7 @@
 					</descriptorRefs>
 					<archive>
 						<manifest>
-							<mainClass>de.upb.wdqa.wsdmcup17.examples.JavaDemo</mainClass>
+							<mainClass>org.wsdmcup17.demo.Main</mainClass>
 						</manifest>
 						<manifestEntries>
 							<Build-Time>${maven.build.timestamp}</Build-Time>
