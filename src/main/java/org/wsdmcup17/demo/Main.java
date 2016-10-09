@@ -66,7 +66,8 @@ public class Main {
 	
 		try {
 			cmd = parser.parse(options, args);
-		} catch (ParseException e) {
+		}
+		catch (ParseException e) {
 			System.out.println(e.getMessage());
 			formatter.printHelp(WSDM_CUP_2017_CLIENT_DEMO, options);
 			System.exit(1);

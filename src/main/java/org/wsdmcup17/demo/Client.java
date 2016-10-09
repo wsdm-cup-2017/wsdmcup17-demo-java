@@ -148,10 +148,10 @@ public class Client {
 	}
 	
 	private Socket createSocket(String address)
-	throws URISyntaxException, UnknownHostException, IOException{
-  	  URI uri = new URI(URI_PROTOCOL_TCP + address);
-  	  String host = uri.getHost();
-  	  int port = uri.getPort();
-		  return new Socket(host, port);
+	throws URISyntaxException, UnknownHostException, IOException {
+		URI uri = new URI(URI_PROTOCOL_TCP + address);
+		String host = uri.getHost();
+		int port = uri.getPort();
+		return new Socket(host, port);
 	}
 }

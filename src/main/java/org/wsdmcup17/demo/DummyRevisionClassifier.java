@@ -84,7 +84,8 @@ public class DummyRevisionClassifier implements MwRevisionProcessor {
 			resultPrinter.print(classificationScore);
 			resultPrinter.println();
 			resultPrinter.flush();
-		} catch (IOException e) {
+		}
+		catch (IOException e) {
 			LOG.error("", e);
 		}
 	}
@@ -92,7 +93,8 @@ public class DummyRevisionClassifier implements MwRevisionProcessor {
 	private CSVRecord getMetadata() {
 		try {
 			return metadataQueue.take();
-		} catch (InterruptedException e) {
+		}
+		catch (InterruptedException e) {
 			LOG.error("", e);
 			return null;
 		}
@@ -102,7 +104,8 @@ public class DummyRevisionClassifier implements MwRevisionProcessor {
 	public void finishRevisionProcessing() {
 		try {
 			resultPrinter.close();
-		} catch (IOException e) {
+		}
+		catch (IOException e) {
 			LOG.error("", e);
 		}
 		LOG.info(LOG_MSG_FINAL_RESULT);
