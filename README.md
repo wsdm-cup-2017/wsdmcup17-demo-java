@@ -11,8 +11,8 @@ In Eclipse, executing "Run As -> Maven install" creates a JAR file which include
 Execution
 --------------------
 The program is started with the following command line arguments:  
-  -d address of data server (in the format HOST\_NAME|IP\_ADDRESS:PORT_NUMBER)  
-  -a authentication token needed to connect to data server  
+  -s address of data server (in the format HOST\_NAME|IP\_ADDRESS:PORT_NUMBER)  
+  -t access token needed to connect to data server  
  
 
 Connecting to the server
