@@ -18,4 +18,4 @@ The program is started with the following command line arguments:
 Connecting to the server
 ------------------------
 1. Start the data server
-2. Start the demo program with the appropriate address and authentication token
+2. Start the demo program with the appropriate address and access token
