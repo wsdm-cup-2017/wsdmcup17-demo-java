@@ -23,7 +23,7 @@ public class Demultiplexer implements Runnable {
 	
 	private static final String
 		LOG_MSG_END_OF_STREAM = "End of stream.",
-		LOG_MSG_METADATA_WITHOUT_REVISION = "Metadata without revision for %s";
+		LOG_MSG_MISSING_DATA_AFTER_METADATA = "Missing data after metadata %s";
 	
 	private BlockingQueue<CSVRecord> metadataQueue;
 	private DataInputStream dataStream;
@@ -52,17 +52,24 @@ public class Demultiplexer implements Runnable {
 		try {
 			while (true) {
 				// Read metadata from stream and queue it.
+				CSVRecord metadata;
 				byte[] bytes = readNextItem(dataStream);
-				if (bytes == null) {
+				if (bytes == null) { // end of stream
 					break;
 				}
-				CSVRecord metadata = MetadataParser.deserialize(bytes);	
-				metadataQueue.put(metadata);
+				// bytes.length is 0 when receiving the tail of the XML document
+				else if (bytes.length == 0){
+					metadata = null;
+				}
+				else{
+					metadata = MetadataParser.deserialize(bytes);	
+					metadataQueue.put(metadata);
+				}
 				
 				// Read corresponding revision from stream and forward it.
 				bytes = readNextItem(dataStream);
-				if (bytes == null) {
-					logStreamInconsistencyError(metadata);
+				if (bytes == null) { // end of stream
+					logMissingDataAfterMetadata(metadata);
 					break;
 				}
 				else {
@@ -90,8 +97,7 @@ public class Demultiplexer implements Runnable {
 		}
 	}
 	
-	private void logStreamInconsistencyError(CSVRecord metadata) {
-		String revisionId = metadata.get(MetadataParser.REVISION_ID);
-		LOG.error(String.format(LOG_MSG_METADATA_WITHOUT_REVISION, revisionId));
+	private void logMissingDataAfterMetadata(CSVRecord metadata) {
+		LOG.error(String.format(LOG_MSG_MISSING_DATA_AFTER_METADATA, metadata));
 	}
 }
