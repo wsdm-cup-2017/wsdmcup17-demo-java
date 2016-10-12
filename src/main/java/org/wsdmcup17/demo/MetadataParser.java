@@ -12,7 +12,7 @@ import org.slf4j.LoggerFactory;
 public class MetadataParser {
 	
 	private static final Logger
-	LOG = Logger.getLogger(MetadataParser.class);
+	LOG = LoggerFactory.getLogger(MetadataParser.class);
 
 	private static final String
 		UTF_8 = "UTF-8";
