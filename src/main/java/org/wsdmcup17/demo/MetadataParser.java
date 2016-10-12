@@ -5,8 +5,14 @@ import java.io.IOException;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 
 public class MetadataParser {
+	
+	private static final Logger
+	LOG = Logger.getLogger(MetadataParser.class);
 
 	private static final String
 		UTF_8 = "UTF-8";
@@ -44,7 +50,13 @@ public class MetadataParser {
 	}
 
 	public static CSVRecord deserialize(String string) throws IOException {
-		CSVParser parser = CSVParser.parse(string, CSV_FORMAT);
-		return parser.getRecords().get(0);
+		try{
+			CSVParser parser = CSVParser.parse(string, CSV_FORMAT);
+			return parser.getRecords().get(0);
+		}
+		catch (Throwable e){
+			LOG.error("Unable to parse \"" + string + "\"", e);
+			throw e;
+		}
 	}	
 }

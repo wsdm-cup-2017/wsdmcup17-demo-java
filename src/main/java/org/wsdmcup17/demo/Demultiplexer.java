@@ -43,7 +43,7 @@ public class Demultiplexer implements Runnable {
 		try {
 			demultiplexStream();
 		}
-		catch (IOException | InterruptedException e) {
+		catch (Throwable e) {
 			LOG.error("", e);
 		}
 	}
