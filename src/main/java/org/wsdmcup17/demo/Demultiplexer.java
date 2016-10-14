@@ -22,7 +22,7 @@ public class Demultiplexer implements Runnable {
 		LOG = Logger.getLogger(Demultiplexer.class);
 	
 	private static final String
-		LOG_MSG_END_OF_STREAM = "End of stream.",
+		LOG_MSG_END_OF_ITEM_STREAM = "End of item stream.",
 		LOG_MSG_MISSING_DATA_AFTER_METADATA = "Missing data after metadata %s";
 	
 	private BlockingQueue<CSVRecord> metadataQueue;
@@ -35,7 +35,7 @@ public class Demultiplexer implements Runnable {
 	) {
 		this.dataStream = inputStream;
 		this.metadataQueue = metaQueue;
-		this.revisionOutputStream = revisionOutputStream;		
+		this.revisionOutputStream = revisionOutputStream;
 	}
 	
 	@Override
@@ -57,14 +57,9 @@ public class Demultiplexer implements Runnable {
 				if (bytes == null) { // end of stream
 					break;
 				}
-				// bytes.length is 0 when receiving the tail of the XML document
-				else if (bytes.length == 0){
-					metadata = null;
-				}
-				else{
-					metadata = MetadataParser.deserialize(bytes);	
-					metadataQueue.put(metadata);
-				}
+
+				metadata = MetadataParser.deserialize(bytes);
+				metadataQueue.put(metadata);
 				
 				// Read corresponding revision from stream and forward it.
 				bytes = readNextItem(dataStream);
@@ -92,7 +87,7 @@ public class Demultiplexer implements Runnable {
 			return bytes;
 		}
 		catch (EOFException e) {
-			LOG.info(LOG_MSG_END_OF_STREAM);
+			LOG.info(LOG_MSG_END_OF_ITEM_STREAM);
 			return null;
 		}
 	}
